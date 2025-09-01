@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HF Bank</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/US_one_dollar_bill%2C_obverse%2C_series_2009.jpg/1200px-US_one_dollar_bill%2C_obverse%2C_series_2009.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #000;
+      padding: 30px;
+    }
+    .container {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 25px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: green;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+    img.success {
+      display: block;
+      margin: 20px auto;
+      max-width: 100px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>HF Bank - Create Account</h2>
+    <form id="hfForm">
+      <label>Name:</label>
+      <input type="text" id="name" required>
+
+      <label>Age:</label>
+      <input type="number" id="age" required>
+
+      <label>Email:</label>
+      <input type="email" id="email" required>
+
+      <label>Gender:</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Transgender</option>
+        <option>Non-binary</option>
+        <option>Other</option>
+        <option>Prefer not to say</option>
+      </select>
+
+      <label>PIN:</label>
+      <input type="password" id="pin" required>
+
+      <button type="submit">Login/Create a New Account</button>
+    </form>
+
+    <img id="successImg" class="success" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1200px-Yes_Check_Circle.svg.png" style="display:none;" />
+  </div>
+
+  <script>
+    const form = document.getElementById('hfForm');
+    const successImg = document.getElementById('successImg');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim().toLowerCase();
+      const age = document.getElementById('age').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const gender = document.getElementById('gender').value;
+      const pin = document.getElementById('pin').value.trim();
+
+      const validUsers = {
+        'haseef muhammed': '1122',
+        'hadikh muhammed': '1234',
+        'faraz ahammed': null
+      };
+
+      const emailValid = email.endsWith('@gmail.com');
+      const nameValid = Object.keys(validUsers).includes(name);
+      const pinRequired = validUsers[name] !== null;
+      const pinValid = pinRequired ? pin === validUsers[name] : true;
+
+      if (nameValid && pinValid && emailValid && gender) {
+        successImg.style.display = 'block';
+        alert("✅ Account created successfully!");
+      } else {
+        document.querySelector('h2').textContent = 'HF Bank - Create New Account';
+        alert("❌ Invalid details. Please create a new account.");
+        window.location.reload();
+      }
+    });
+
+    // --- DevTools Protection ---
+    const INSPECT_PASSWORD = "112233";
+
+    function askDevToolsPassword() {
+      const pwd = prompt("🔒 Dev Mode is protected.\nEnter password to continue:");
+      if (pwd !== INSPECT_PASSWORD) {
+        alert("❌ Incorrect password! DevTools access denied.");
+        window.location.href = "https://www.google.com";
+      }
+    }
+
+    document.addEventListener("contextmenu", function(e) {
+      e.preventDefault();
+      askDevToolsPassword();
+    });
+
+    document.addEventListener("keydown", function(e) {
+      if (
+        e.key === "F12" ||
+        (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C")) ||
+        (e.ctrlKey && e.key === "U")
+      ) {
+        e.preventDefault();
+        askDevToolsPassword();
+      }
+    });
+  </script>
+
+</body>
+</html>
