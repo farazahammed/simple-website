@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Partnership Renewal</title>
+</head>
+<body>
+    <h2>----- Partnership Renewal Form -----</h2>
+    
+    <label>Username:</label>
+    <input type="text" id="username"><br><br>
+    
+    <label>Password:</label>
+    <input type="password" id="password"><br><br>
+    
+    <button onclick="login()">Login</button>
+    
+    <p id="message" style="color:red;"></p>
+
+    <script>
+        const users = {
+            "faraz": "1122",
+            "haseef": "1212",
+            "hadikh": "1234",
+            "filza": "1221",
+            "neira": "12345"
+        };
+
+        let count = 0;
+
+        function login() {
+            let un = document.getElementById("username").value;
+            let pw = document.getElementById("password").value;
+
+            if (users[un] && users[un] === pw) {
+                document.getElementById("message").style.color = "green";
+                document.getElementById("message").textContent = "Renewed your partnership ✅";
+                window.location.href = "https://farazahammed.blogspot.com"; // Redirect
+            } else {
+                count++;
+                document.getElementById("message").textContent = "Unverified username or password ❌";
+                if (count === 2) {
+                    document.getElementById("message").textContent = "Account has been disabled 🚫";
+                    document.querySelector("button").disabled = true; // disable button
+                }
+            }
+        }
+    </script>
+</body>
+</html>
